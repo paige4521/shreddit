@@ -1,0 +1,35 @@
+<!--This is the main file for all of the html files. All html code will
+eventually refer to this file !-->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Shreddit</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<!-- Adding notification for Devise per Devise instructions !-->
+  <% flash.each do |name, msg| %>
+		<%= content_tag(:div, msg, class: "alert alert-info") %>
+	<% end %>
+<!-- branching logic test if user is logged in !-->
+  <% if user_signed_in? -%>
+		<ul class="nav navbar-nav navbar-right">
+			<li><%= link_to 'Submit link', new_link_path %></li>
+			<li><%= link_to 'Account', edit_user_registration_path %></li>
+			<li><%= link_to 'Sign out', destroy_user_session_path, :method => :delete %></li>
+		</ul>
+	<% else -%>
+		<ul class="nav navbar-nav pull-right">
+			<li><%= link_to 'Sign up', new_user_registration_path %></li>
+			<li><%= link_to 'Sign in', new_user_session_path %></li>
+		</ul>
+	<% end -%>
+
+<!--#views are automatically injected where you see the ruby tag of yield !-->
+<%= yield %>
+
+</body>
+</html>
