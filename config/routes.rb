@@ -1,7 +1,22 @@
 Rails.application.routes.draw do
+  #devise_for :users
+  #resources :links
+  #root "links#index"
+  #line 6 - 12 replaces lines 1 - 3
   devise_for :users
-  resources :links
-  root "links#index"
+  #makes restful routes for the links controller adn extends it to members
+  # for upvote adn downvote actions. See line 34 - 44 for another Example
+  #provided by Rails.
+  #Need clarification regarding member. See 2.10.1 Adding Member Routes 
+  resources :links do
+    member do
+      put "like",     to: "links#upvote"
+      put "dislike",  to: "links#downvote"
+    end
+  end
+
+  root 'links#index'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

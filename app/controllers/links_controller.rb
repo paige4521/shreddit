@@ -1,6 +1,8 @@
 class LinksController < ApplicationController
   before_action :set_link, only: [:show, :edit, :update, :destroy]
-
+  #if user is authenticated then show everything; otherwise send user back to the
+  #index
+  before_filter :authenticate_user!, except: [:index, :show]
   # GET /links
   # GET /links.json
   def index
@@ -13,9 +15,13 @@ class LinksController < ApplicationController
   end
 
   # GET /links/new
+
   def new
-    @link = Link.new
+    #Build is a method provided by Rails.  It's an alias of new.
+    #Read more about it here: http://stackoverflow.com/questions/19761766/build-method-on-ruby-on-rails
+    @link = current_user.links.build
   end
+
 
   # GET /links/1/edit
   def edit
@@ -24,7 +30,9 @@ class LinksController < ApplicationController
   # POST /links
   # POST /links.json
   def create
-    @link = Link.new(link_params)
+    @link = current_user.links.build(link_params)
+    #link_params is a helper method that scaffold provides.  See below
+    #If you don't use scaffold, then you should code this helper  manually
 
     respond_to do |format|
       if @link.save
@@ -60,6 +68,22 @@ class LinksController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def upvote
+      @link = Link.find(params[:id])
+      #upvote_by is a method provided by gem acts_as_votable
+      #current_user is a method provided by gem devise
+      @link.upvote_by current_user
+      redirect_to :back
+    end
+
+    def downvote
+      @link = Link.find(params[:id])
+      @link.downvote_by current_user
+      redirect_to :back
+    end
+
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
