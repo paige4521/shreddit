@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :comments
   #devise_for :users
   #resources :links
   #root "links#index"
@@ -7,12 +8,13 @@ Rails.application.routes.draw do
   #makes restful routes for the links controller adn extends it to members
   # for upvote adn downvote actions. See line 34 - 44 for another Example
   #provided by Rails.
-  #Need clarification regarding member. See 2.10.1 Adding Member Routes 
+  #Need clarification regarding member. See 2.10.1 Adding Member Routes
   resources :links do
     member do
       put "like",     to: "links#upvote"
       put "dislike",  to: "links#downvote"
     end
+    resources :comments
   end
 
   root 'links#index'

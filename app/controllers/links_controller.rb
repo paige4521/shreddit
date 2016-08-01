@@ -2,6 +2,7 @@ class LinksController < ApplicationController
   before_action :set_link, only: [:show, :edit, :update, :destroy]
   #if user is authenticated then show everything; otherwise send user back to the
   #index
+  
   before_filter :authenticate_user!, except: [:index, :show]
   # GET /links
   # GET /links.json
