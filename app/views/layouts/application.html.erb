@@ -23,7 +23,7 @@ eventually refer to this file !-->
 							<li><%= link_to 'Account', edit_user_registration_path %></li>
               <!-- method by default is submit, so since we want to destroy we must specify
               the method as below. !-->
-							<li><%= link_to 'Sign out', destroy_user_session_path, :method => :delete %></li>
+							<li><%= link_to 'Sign out', destroy_user_session_path, method: :delete %></li>
 						</ul>
 					<% else -%>
 						<ul class="nav navbar-nav pull-right">
